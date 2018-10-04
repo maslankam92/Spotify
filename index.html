@@ -15,26 +15,27 @@
       <i class="fab fa-spotify"></i>
     </nav>
 
-    <div class="wrapper">
-
-      <header class="header">
+    <header class="header">
+      <div class="wrapper">
         <div class="header__jumbotron">
           <h1>Create Your Playlist</h1>
-          <p>Search for your favourite artists, pick the best songs and listen your desired playlist.</p>
+          <p>Search for your favourite artists, pick the best songs and listen your desired playlists</p>
         </div>
         <form class="header__search-form">
           <input id="search" type="text" placeholder="Type your artist...">
           <label for="search"><i class="fas fa-search"></i></label>
         </form>
-      </header>
+      </div>
+    </header>
 
-      <section class="results">
+    <section class="results">
+      <div class="wrapper">
 
         <main class="results__artists">
           <div class="artists__card">
             <img class="card__img"src="https://semantic-ui.com/images/avatar2/large/matthew.png" alt="artist">
             <div class="card__content">
-              <p class="content__name">Alex Gaudino
+              <p class="content__name">Alex Gaudino</p>
               <div class="content__genres">
                 <span class="genres__name">Dance</span>
               </div>
@@ -43,9 +44,83 @@
                   <i class="fas fa-heart"></i>
                   45,889
                 </span>
+                <a href="#" title="Go to Spotify" class="artist-info__link"><i class="fas fa-share"></i></a>
+              </div>
+
+              <div class="content__songs">
+                <p>Top Songs</p>
+                <ul>
+                  <li class="songs__item">
+                    <div class="item__text">
+                      <p class="text__title">Pażałsta feat. SIR MICH</p>
+                      <p class="text__artist">TEDE</p>
+                    </div>
+                    <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
+                  </li>
+                  <li class="songs__item">
+                    <div class="item__text">
+                      <p class="text__title">Pażałsta feat. SIR MICH</p>
+                      <p class="text__artist">TEDE</p>
+                    </div>
+                    <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
+                  </li>
+                  <li class="songs__item">
+                    <div class="item__text">
+                      <p class="text__title">Pażałsta feat. SIR MICH</p>
+                      <p class="text__artist">TEDE</p>
+                    </div>
+                    <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="artists__card">
+            <img class="card__img"src="https://semantic-ui.com/images/avatar2/large/matthew.png" alt="artist">
+            <div class="card__content">
+              <p class="content__name">Alex Gaudino
+              <div class="content__genres">
+                <span class="genres__name">Dance</span>
+              </div>
+              <div class="content__artist-info">
+                  <span class="artist-info__followers">
+                    <i class="fas fa-heart"></i>
+                    45,889
+                  </span>
                 <span class="artist-info__link">
-                  <a href=""><i class="fas fa-share"></i></a>
-                </span>
+                    <a href=""><i class="fas fa-share"></i></a>
+                  </span>
+              </div>
+
+              <div class="content__songs">
+                <p>Top Songs</p>
+                <ul>
+                  <li class="songs__item">
+                    <div class="item__text">
+                      <p class="text__title">Nazwa piosenki</p>
+                      <p class="text__artist">TEDE</p>
+                    </div>
+                    <a class="item__add-to-playlist-btn">+</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="artists__card">
+            <img class="card__img"src="https://semantic-ui.com/images/avatar2/large/matthew.png" alt="artist">
+            <div class="card__content">
+              <p class="content__name">Alex Gaudino
+              <div class="content__genres">
+                <span class="genres__name">Dance</span>
+              </div>
+              <div class="content__artist-info">
+                  <span class="artist-info__followers">
+                    <i class="fas fa-heart"></i>
+                    45,889
+                  </span>
+                <span class="artist-info__link">
+                    <a href=""><i class="fas fa-share"></i></a>
+                  </span>
               </div>
 
               <div class="content__songs">
@@ -65,24 +140,44 @@
         </main>
 
         <aside class="results__playlist">
-          <p>Your Playlist</p>]
+          <p>Your Playlist</p>
           <ul>
             <li class="playlist__song">
+              <a href="#" class="song__play-btn"><i class="fas fa-play"></i></a>
               <div class="song__text">
                 <p class="text__title">Nazwa piosenki</p>
                 <p class="text__artist">TEDE</p>
               </div>
-              <div class="song__btns">
-                <a class="btns__play"><i class="fas fa-play"></i></a>
-                <a class="btns__delete"><i class="fas fa-trash"></i></a>
+              <a href="#" class="song__delete-btn"><i class="fas fa-trash"></i></a>
+            </li>
+            <li class="playlist__song">
+              <a href="#" class="song__play-btn"><i class="fas fa-play"></i></a>
+              <div class="song__text">
+                <p class="text__title">Nazwa piosenki</p>
+                <p class="text__artist">TEDE</p>
               </div>
+              <a href="#" class="song__delete-btn"><i class="fas fa-trash"></i></a>
+            </li>
+            <li class="playlist__song">
+              <a href="#" class="song__play-btn"><i class="fas fa-play"></i></a>
+              <div class="song__text">
+                <p class="text__title">Nazwa piosenki</p>
+                <p class="text__artist">TEDE</p>
+              </div>
+              <a href="#" class="song__delete-btn"><i class="fas fa-trash"></i></a>
+            </li>
+            <li class="playlist__song">
+              <a href="#" class="song__play-btn"><i class="fas fa-play"></i></a>
+              <div class="song__text">
+                <p class="text__title">Nazwa piosenki</p>
+                <p class="text__artist">TEDE</p>
+              </div>
+              <a href="#" class="song__delete-btn"><i class="fas fa-trash"></i></a>
             </li>
           </ul>
         </aside>
-
-      </section>
-
-    </div>
+      </div>
+    </section>
 
   </div>
   <script src="app.js"></script>
