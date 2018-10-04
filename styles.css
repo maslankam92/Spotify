@@ -28,7 +28,7 @@ body {
 }
 
 .wrapper {
-  max-width: 960px;
+  max-width: 1260px;
   margin: 0 auto;
 }
 
@@ -81,9 +81,11 @@ body {
   height: 100%;
 }
 
-.header__search-form label {
+.header__search-form button {
   background-color: var(--primary-green);
+  border: 0;
   border-radius: 50%;
+  color: var(--primary-white);
   cursor: pointer;
   display: inline-block;
   font-size: 1.5rem;
@@ -92,12 +94,8 @@ body {
   transition: .1s;
 }
 
-.header__search-form label:hover {
+.header__search-form button:hover {
   transform: scale(.9);
-}
-
-.header__search-form label i {
-  margin-top: .7rem;
 }
 
 /* RESULTS STYLES */
@@ -190,6 +188,10 @@ body {
 .playlist__song:hover {
   background: rgba(57, 57, 57, .3);
   transition: .1s;
+}
+
+.text__title {
+  font-weight: 600;
 }
 
 /* PLAYLIST STYLES */
