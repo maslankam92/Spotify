@@ -4,11 +4,72 @@ const URI = 'http://localhost:63340/Spotify/index.html';
 
 const searchForm = document.querySelector('.header__search-form');
 const searchInput = document.querySelector('.header__search-form input');
+const resultsArtists = document.querySelector('.results__artists');
+
+let state = {
+  artists: []
+};
+
+function renderArtists(artists) {
+  const markup = artists.map((artist, i) => {
+    const animationTime = ((i+1) * .2);
+    return `
+      <div class="artists__card" style="animation: slide-up ${animationTime}s ease">
+        <img class="card__img" src="${artist.images[0] && artist.images[0].url || 'https://semantic-ui.com/images/avatar2/large/matthew.png'}" alt="${artist.name}">
+        <div class="card__content">
+          <p class="content__name">${artist.name}</p>
+          <div class="content__genres">
+            <span class="genres__name">${artist.genres}</span>
+          </div>
+          <div class="content__artist-info">
+            <span class="artist-info__followers">
+              <i class="fas fa-heart"></i>
+              ${artist.followers.total}
+            </span>
+            <a href="${artist.external_urls.spotify}" target="_blank" title="Go to Spotify" class="artist-info__link"><i class="fas fa-share"></i></a>
+          </div>
+  
+          <div class="content__songs">
+            <p>Top Songs</p>
+            <ul>
+              <li class="songs__item">
+                <div class="item__text">
+                  <p class="text__title">Pażałsta feat. SIR MICH</p>
+                  <p class="text__artist">TEDE</p>
+                </div>
+                <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
+              </li>
+              <li class="songs__item">
+                <div class="item__text">
+                  <p class="text__title">Pażałsta feat. SIR MICH</p>
+                  <p class="text__artist">TEDE</p>
+                </div>
+                <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
+              </li>
+              <li class="songs__item">
+                <div class="item__text">
+                  <p class="text__title">Pażałsta feat. SIR MICH</p>
+                  <p class="text__artist">TEDE</p>
+                </div>
+                <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    `
+  }).join('');
+
+  resultsArtists.innerHTML = markup;
+}
 
 async function onSearchFormSubmit(e) {
   e.preventDefault();
   try {
-    const results = await getArtistResults(searchInput.value);
+    const { artists } = await getArtistResults(searchInput.value);
+    renderArtists(artists.items);
+    state.artists = artists;
+    this.reset();
   } catch(e) {
     console.error(e);
   }
@@ -37,7 +98,6 @@ function checkToken() {
     let now = new Date().getTime();
     const TOKEN_EXPIRY_MS = (60 * 60 * 1000);
     const tokenExpired = now - localStorageToken.timeStamp > TOKEN_EXPIRY_MS;
-    console.log(now - localStorageToken.timeStamp);
     if (tokenExpired) {
       localStorage.removeItem('playlistSpotifyToken');
       window.location.href = "https://accounts.spotify.com/authorize?client_id=" + CLIENT_ID + "&redirect_uri=" + URI + "&response_type=token&state=123";
