@@ -33,7 +33,17 @@ async function getArtistResults(artistName) {
 function checkToken() {
   let token;
   const localStorageToken = JSON.parse(localStorage.getItem('playlistSpotifyToken'));
-  if (localStorageToken) return;
+  if (localStorageToken) {
+    let now = new Date().getTime();
+    const TOKEN_EXPIRY_MS = (60 * 60 * 1000);
+    const tokenExpired = now - localStorageToken.timeStamp > TOKEN_EXPIRY_MS;
+    console.log(now - localStorageToken.timeStamp);
+    if (tokenExpired) {
+      localStorage.removeItem('playlistSpotifyToken');
+      window.location.href = "https://accounts.spotify.com/authorize?client_id=" + CLIENT_ID + "&redirect_uri=" + URI + "&response_type=token&state=123";
+    }
+    return
+  }
 
   const tokenInURL =  window.location.hash.includes('access_token');
   if (!tokenInURL) {
