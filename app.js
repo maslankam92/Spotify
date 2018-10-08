@@ -32,27 +32,19 @@ function renderArtists(artists) {
           <div class="content__songs">
             <p>Top Songs</p>
             <ul>
-              <li class="songs__item">
-                <div class="item__text">
-                  <p class="text__title">Pażałsta feat. SIR MICH</p>
-                  <p class="text__artist">TEDE</p>
-                </div>
-                <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
-              </li>
-              <li class="songs__item">
-                <div class="item__text">
-                  <p class="text__title">Pażałsta feat. SIR MICH</p>
-                  <p class="text__artist">TEDE</p>
-                </div>
-                <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
-              </li>
-              <li class="songs__item">
-                <div class="item__text">
-                  <p class="text__title">Pażałsta feat. SIR MICH</p>
-                  <p class="text__artist">TEDE</p>
-                </div>
-                <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
-              </li>
+            ${
+              artist.tracks.map(track => {
+                console.log(track);
+              return `<li class="songs__item">
+                  <div class="item__text">
+                  <p class="text__title">${track.name}</p>
+                <p class="text__artist">${track.artists.map(artist => artist.name)}</p>
+                  </div>
+                  <a href="#" class="item__add-to-playlist-btn"><i class="fas fa-plus"></i></a>
+                </li>`               
+              }).join('')
+            }
+
             </ul>
           </div>
         </div>
@@ -66,9 +58,9 @@ function renderArtists(artists) {
 async function onSearchFormSubmit(e) {
   e.preventDefault();
   try {
-    const { artists } = await getArtistResults(searchInput.value);
-    renderArtists(artists.items);
-    state.artists = artists;
+    const artists = await getArtistResults(searchInput.value);
+    renderArtists(artists);
+    // state.artists = artists;
     this.reset();
   } catch(e) {
     console.error(e);
@@ -83,12 +75,23 @@ async function getArtistResults(artistName) {
   });
   const SEARCH_ARTIST_URL = `${SEARCH_URL}${artistName}&type=artist`;
   const response = await fetch(SEARCH_ARTIST_URL, {headers});
-  const artistData = await response.json();
+  let { artists, error } = await response.json();
 
-  if (artistData.error) {
-    throw new Error(artistData.error.message);
+  if (error) {
+    throw new Error(error.message);
   }
-  return artistData
+
+  async function getTopSongs(artists) {
+    for(let artist of artists) {
+      const response = await fetch(`https://api.spotify.com/v1/artists/${artist.id}/top-tracks?country=PL`, {headers});
+      const tracks = await response.json();
+      Object.assign(artist, tracks);
+    }
+    return artists
+  }
+
+  return await getTopSongs(artists.items);
+
 }
 
 function checkToken() {
