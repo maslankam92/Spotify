@@ -5,6 +5,8 @@ const URI = 'http://localhost:63340/Spotify/index.html';
 const searchForm = document.querySelector('.header__search-form');
 const searchInput = document.querySelector('.header__search-form input');
 const resultsArtists = document.querySelector('.results__artists');
+const resultsWrapper = document.querySelector('.results .wrapper');
+const resultsPlaylist = document.querySelector('.results__playlist');
 
 let state = {
   artists: [],
@@ -131,22 +133,57 @@ function checkToken() {
 
 checkToken();
 
+function renderPlaylist() {
+  const playlistOpen = state.playlist.length > 0;
+  playlistOpen ? resultsWrapper.classList.add('playlist--open') : resultsWrapper.classList.remove('playlist--open');
+
+  const playlistMarkup = `
+    <p>Your Playlist</p>
+    <ul>
+      ${
+        state.playlist.map((song, i) => {
+        const animationTime = ((i+1) * .2);
+        return `
+          <li class="playlist__song" style="animation: slide-up ${animationTime}s ease">
+            <a href="#" class="song__play-btn"><i class="fas fa-play"></i></a>
+            <div class="song__text">
+              <p class="text__title">${song.name}</p>
+              <p class="text__artist">${song.artists.map(artist => artist.name)}</p>
+            </div>
+            <a href="#" class="song__delete-btn">
+              <i class="fas fa-trash" data-track-id="${song.id}"></i>
+            </a>
+          </li>`
+        }).join('')
+      }
+    </ul>`;
+
+  resultsPlaylist.innerHTML = playlistMarkup;
+}
+
 function addTrackToPlaylist({ target }) {
   if (!target.classList.contains('fa-plus')) return;
 
   const { artistId, trackId } = target.dataset;
-
-  const trackToAdd = state.artists
-    .find(artist => artist.id === artistId).tracks
-    .find(track => track.id === trackId);
-
+  const trackToAdd = state.artists.reduce((acc, artist) => {
+    let obj = {};
+    if (artist.id === artistId) {
+      obj = artist.tracks.find(track => track.id === trackId);
+    }
+    return Object.assign({}, acc, obj);
+  }, {});
   state.playlist.push(trackToAdd);
+  
+  renderPlaylist();
+}
 
-
-
-  console.log(state);
-
+function removeTrackFromPlaylist({ target }) {
+  if (!target.classList.contains('fa-trash')) return;
+  const { trackId } = target.dataset;
+  state.playlist = [...state.playlist].filter(track => track.id !== trackId);
+  renderPlaylist();
 }
 
 searchForm.addEventListener('submit', onSearchFormSubmit);
 resultsArtists.addEventListener('click', addTrackToPlaylist);
+resultsPlaylist.addEventListener('click', removeTrackFromPlaylist);
