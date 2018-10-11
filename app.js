@@ -1,7 +1,7 @@
 const SEARCH_URL = 'https://api.spotify.com/v1/search?q=';
 const CLIENT_ID = '739bb8c6d81047a59b9e77ccb475d91c';
-const URI = window.location.host === 'github.com'
-  ? 'https://maslankam92.github.io/Spotify/' :'http://localhost:63340/Spotify/index.html';
+const URI = 'https://maslankam92.github.io/Spotify/';
+// const URI = 'http://localhost:63340/Spotify/index.html';
 
 const searchForm = document.querySelector('.header__search-form');
 const searchInput = document.querySelector('.header__search-form input');
