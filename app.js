@@ -1,16 +1,19 @@
 const SEARCH_URL = 'https://api.spotify.com/v1/search?q=';
 const CLIENT_ID = '739bb8c6d81047a59b9e77ccb475d91c';
-const URI = 'http://localhost:63340/Spotify/index.html';
+const URI = window.location.host === 'github.com'
+  ? 'https://maslankam92.github.io/Spotify/' :'http://localhost:63340/Spotify/index.html';
 
 const searchForm = document.querySelector('.header__search-form');
 const searchInput = document.querySelector('.header__search-form input');
 const resultsArtists = document.querySelector('.results__artists');
 const resultsWrapper = document.querySelector('.results .wrapper');
 const resultsPlaylist = document.querySelector('.results__playlist');
+const audio = document.querySelector('#currentTrack');
 
 let state = {
   artists: [],
-  playlist: []
+  playlist: [],
+  currentPlaying: '',
 };
 
 function renderArtists(artists) {
@@ -47,7 +50,7 @@ function renderArtists(artists) {
                     <p class="text__artist">${track.artists.map(artist => artist.name)}</p>
                   </div>
                   <a href="#" class="item__add-to-playlist-btn">
-                    <i class="fas fa-plus" data-artist-id="${artist.id}" data-track-id="${track.id}"></i>
+                    <i class="fas ${state.playlist.find(song => track.id === song.id) ? '' : 'fa-plus'}" data-artist-id="${artist.id}" data-track-id="${track.id}"></i>
                   </a>
                 </li>`               
               }).join('')
@@ -145,7 +148,11 @@ function renderPlaylist() {
         const animationTime = ((i+1) * .2);
         return `
           <li class="playlist__song" style="animation: slide-up ${animationTime}s ease">
-            <a href="#" class="song__play-btn"><i class="fas fa-play"></i></a>
+            <a href="#" class="song__play-btn">
+              <i class="fas ${state.currentPlaying === song.id ? 'fa-stop' : 'fa-play'}" 
+                data-track-id="${song.id}"
+                data-track-url="${song.preview_url}"></i>
+            </a>
             <div class="song__text">
               <p class="text__title">${song.name}</p>
               <p class="text__artist">${song.artists.map(artist => artist.name)}</p>
@@ -157,7 +164,6 @@ function renderPlaylist() {
         }).join('')
       }
     </ul>`;
-
   resultsPlaylist.innerHTML = playlistMarkup;
 }
 
@@ -173,17 +179,41 @@ function addTrackToPlaylist({ target }) {
     return Object.assign({}, acc, obj);
   }, {});
   state.playlist.push(trackToAdd);
-  
   renderPlaylist();
+  renderArtists(state.artists);
 }
 
 function removeTrackFromPlaylist({ target }) {
   if (!target.classList.contains('fa-trash')) return;
   const { trackId } = target.dataset;
   state.playlist = [...state.playlist].filter(track => track.id !== trackId);
+  if (trackId === state.currentPlaying) {
+    audio.pause();
+    audio.removeAttribute('src');
+    state.currentPlaying = '';
+  }
   renderPlaylist();
+  renderArtists(state.artists);
+}
+
+function togglePlayingTrack({ target }) {
+  console.log(target);
+  if (target.classList.contains('fa-play')) {
+    audio.setAttribute('src', target.dataset.trackUrl);
+    audio.play()
+      .then(x => {
+        state.currentPlaying = target.dataset.trackId;
+        renderPlaylist();
+      })
+      .catch(e => console.log(e));
+  } else if (target.classList.contains('fa-stop')) {
+    audio.pause();
+    state.currentPlaying = '';
+    renderPlaylist();
+  }
 }
 
 searchForm.addEventListener('submit', onSearchFormSubmit);
 resultsArtists.addEventListener('click', addTrackToPlaylist);
 resultsPlaylist.addEventListener('click', removeTrackFromPlaylist);
+resultsPlaylist.addEventListener('click', togglePlayingTrack);
