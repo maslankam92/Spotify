@@ -75,10 +75,15 @@ body {
   border-radius: 25px;
   color: var(--primary-dark);
   font-family: 'Nunito', sans-serif;
-  font-size: 2rem;
-  padding: .3rem 1rem;
+  font-size: 1.8rem;
+  padding: .3rem 2rem;
   vertical-align: top;
   height: 100%;
+}
+
+.header__search-form input:focus,
+.header__search-form button:focus {
+  outline: none;
 }
 
 .header__search-form button {
@@ -102,6 +107,7 @@ body {
 .results .wrapper {
   padding: 4rem 0;
   display: flex;
+  align-items: flex-start;
 }
 
 .results__artists {
@@ -116,9 +122,11 @@ body {
 
 .results .wrapper.playlist--open .artists__card {
   width: calc((100% / 3) - 1rem);
+  max-height: 800px;
 }
 
-.artists__card {
+.artists__card,
+.artists__empty {
   background: rgba(57, 57, 57, .7);
   border-radius: 4px;
   box-shadow: 3px 3px 6px rgba(0,0,0,0.16), 3px 3px 6px rgba(0,0,0,0.23);
@@ -127,21 +135,18 @@ body {
   width: calc((100% / 4) - 1rem);
 }
 
+.artists__empty {
+  width: 100%;
+  padding: 4rem;
+  font-size: 2rem;
+  text-align: center;
+}
+
 .card__img {
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   width: 100%;
-}
-
-@keyframes slide-upa {
-  0% {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  max-height: 300px;
 }
 
 .card__content {
@@ -191,6 +196,29 @@ body {
 
 .content__songs ul {
   list-style-type: none;
+  height: 100%;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.content__songs ul::-webkit-scrollbar,
+.results .wrapper.playlist--open .results__playlist ul::-webkit-scrollbar {
+  width: 5px;
+}
+
+.content__songs ul::-webkit-scrollbar-track,
+.results .wrapper.playlist--open .results__playlist ul::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.content__songs ul::-webkit-scrollbar-thumb,
+.results .wrapper.playlist--open .results__playlist ul::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.content__songs ul::-webkit-scrollbar-thumb:hover,
+.results .wrapper.playlist--open .results__playlist ul::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .songs__item,
@@ -209,6 +237,10 @@ body {
   transition: .1s;
 }
 
+.song__text {
+  margin: 0 1rem;
+}
+
 .text__title {
   font-weight: 600;
 }
@@ -222,6 +254,7 @@ body {
   margin: .5rem;
   width: 0;
   display: none;
+
 }
 
 .results__playlist ul {
@@ -231,7 +264,14 @@ body {
 .results .wrapper.playlist--open .results__playlist {
   width: 25%;
   display: initial;
-  animation: slide-up .5s ease;
+  position: sticky;
+  top: 1rem;
+  max-height: 600px;
+}
+
+.results .wrapper.playlist--open .results__playlist ul {
+  overflow-y: auto;
+  max-height: 500px;
 }
 
 .results__playlist > p {
@@ -241,4 +281,57 @@ body {
   padding: 1rem;
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
+}
+
+@media screen and (max-width: 800px) {
+  .header__jumbotron {
+    display: none;
+  }
+
+  .header__search-form {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .results .wrapper.playlist--open .results__artists {
+    width: 66%;
+  }
+
+  .results .wrapper.playlist--open .artists__card {
+    width: calc((100% / 2) - 1rem);
+    max-height: 800px;
+  }
+
+  .results .wrapper.playlist--open .results__playlist {
+    width: 34%;
+  }
+
+  .artists__card,
+  .artists__empty {
+    width: calc((100%) - 1rem);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .results .wrapper.playlist--open .results__artists {
+    width: 50%;
+  }
+
+  .results .wrapper.playlist--open .artists__card {
+    width: calc((100%) - 1rem);
+    max-height: 800px;
+  }
+
+  .results .wrapper.playlist--open .results__playlist {
+    width: 50%;
+  }
+
+  .artists__card,
+  .artists__empty {
+    width: calc((100%) - 1rem);
+  }
+
+  .card__img {
+    max-height: 500px;
+  }
 }
