@@ -237,6 +237,10 @@ body {
   transition: .1s;
 }
 
+.text__artist {
+  word-break: break-all;
+}
+
 .song__text {
   margin: 0 1rem;
 }
@@ -284,6 +288,10 @@ body {
 }
 
 @media screen and (max-width: 800px) {
+  html {
+    font-size: 14px;
+  }
+
   .header__jumbotron {
     display: none;
   }
@@ -306,9 +314,8 @@ body {
     width: 34%;
   }
 
-  .artists__card,
-  .artists__empty {
-    width: calc((100%) - 1rem);
+  .artists__card {
+    width: calc((100%/3) - 1rem);
   }
 }
 
@@ -326,8 +333,7 @@ body {
     width: 50%;
   }
 
-  .artists__card,
-  .artists__empty {
+  .artists__card {
     width: calc((100%) - 1rem);
   }
 
