@@ -6,8 +6,8 @@ import {
 
 const SEARCH_URL = 'https://api.spotify.com/v1/search?q=';
 const CLIENT_ID = '739bb8c6d81047a59b9e77ccb475d91c';
-// const URI = 'https://maslankam92.github.io/Spotify/';
-const URI = 'http://localhost:63340/Spotify/index.html';
+const URI = 'https://maslankam92.github.io/Spotify/';
+// const URI = 'http://localhost:63340/Spotify/index.html';
 const TOKEN_NAME = 'playlistSpotifyToken';
 const HOOKS = {
   PLAYLIST: 'PLAYLIST',
